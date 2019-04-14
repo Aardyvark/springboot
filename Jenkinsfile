@@ -15,14 +15,14 @@ pipeline {
                       echo 'Packaging'
                       sh 'mvn -Dmaven.test.failure.ignore=true install -X'
                     }
-/*
-                    post {
-                        always {
-                          //archive "target/**/*"
-                          junit 'target/surefire-reports/**/*.xml'
-                        }
-                    }
-*/
+//
+//                    post {
+//                        always {
+//                          //archive "target/**/*"
+//                          junit 'target/surefire-reports/**/*.xml'
+//                        }
+//                    }
+//
                 }
                 stage('Publish') {
                     steps {
