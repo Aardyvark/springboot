@@ -10,6 +10,12 @@ pipeline {
         stage('Build / Publish') {
             agent { docker 'maven:3-alpine' }
             stages {
+                stage('Compile') {
+                  steps {
+                    echo 'Compile'
+                    sh 'mvn compile'
+                  }
+                }
                 stage('Build') {
                     steps {
                       echo 'Packaging'
