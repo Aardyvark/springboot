@@ -46,12 +46,10 @@
 	</dependencies>
 	<build>
 		<plugins>
-<!--
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
--->
 <!--
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -81,7 +79,6 @@
 				</configuration>
 			</plugin>
 <!-- plugin not needed for trival app, without dependencies -->
-<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -99,7 +96,6 @@
 					</execution>
 				</executions>
 			</plugin>
--->
 			<plugin>
 		    <groupId>io.fabric8</groupId>
 		    <artifactId>docker-maven-plugin</artifactId>
