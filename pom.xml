@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>uk.co.andyfennell.app</groupId>
-	<artifactId>helloWorld</artifactId>
+	<groupId>uk.co.andyfennell.springboot</groupId>
+	<artifactId>springBootExample</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>helloWorld</name>
+	<name>springBootExample</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +14,7 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<project.main.class>uk.co.andyfennell.app.HelloWorld</project.main.class>
+		<project.main.class>uk.co.andyfennell.springboot.Application</project.main.class>
 		<docker.maven.plugin.version>0.22.1</docker.maven.plugin.version>
 		<!-- To be able to interpolate the value on the Dockerfile. Waiting for
 			https://github.com/fabric8io/docker-maven-plugin/pull/877 to be merged. -->
