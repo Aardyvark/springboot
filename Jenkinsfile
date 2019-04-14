@@ -10,25 +10,17 @@ pipeline {
         stage('Build / Publish') {
             agent { docker 'maven:3-alpine' }
             stages {
-                stage('Packaging') {
-                  steps {
-                    echo 'Packaging'
-                    sh 'mvn package'
-                  }
-                }
                 stage('Build') {
                     steps {
                       echo 'Packaging'
-                      sh 'mvn -Dmaven.test.failure.ignore=true install -X'
+                      sh 'mvn -Dmaven.test.failure.ignore=true install'
                     }
-//
-//                    post {
-//                        always {
-//                          //archive "target/**/*"
-//                          junit 'target/surefire-reports/**/*.xml'
-//                        }
-//                    }
-//
+                    post {
+                        always {
+                          //archive "target/**/*"
+                          junit 'target/surefire-reports/**/*.xml'
+                        }
+                    }
                 }
                 stage('Publish') {
                     steps {
