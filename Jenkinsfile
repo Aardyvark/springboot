@@ -24,7 +24,7 @@ pipeline {
                 }
                 stage('Tag') {
                     steps {
-                      withDockerServer([]) {
+                      withDockerServer([credentialsId: "", uri: ""]) {
                         sh('docker images')
                         //sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
                       }
