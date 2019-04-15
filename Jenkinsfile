@@ -22,6 +22,11 @@ pipeline {
                         }
                     }
                 }
+                stage('Tag') {
+                    steps {
+                      sh('printenv BUILD_TAG')
+                    }
+                }
                 stage('Publish') {
                     steps {
                       echo 'Publish'
