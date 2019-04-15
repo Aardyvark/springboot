@@ -24,7 +24,10 @@ pipeline {
                 }
                 stage('Tag') {
                     steps {
-                      sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
+                      withDockerServer([]) {
+                        sh('docker images')
+                        //sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
+                      }
                     }
                 }
                 stage('Publish') {
