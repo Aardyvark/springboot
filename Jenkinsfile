@@ -36,7 +36,7 @@ pipeline {
           steps {
             echo 'Publish'
             sh('docker images')
-            sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
+            sh('docker tag localhost:32800/springboot/springbootexample latest')
           }
         }
     }
