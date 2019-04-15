@@ -5,6 +5,7 @@ pipeline {
           agent any
           steps {
             sh('printenv')
+            sh('docker images')
           }
         }
         stage('Start Build') {
@@ -28,14 +29,14 @@ pipeline {
                 }
               }
             }
-            stage('Tag') {
-              steps {
-                withDockerServer([credentialsId: "", uri: ""]) {
-                  sh('docker images')
-                  //sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
-                }
-              }
-            }
+            //stage('Tag') {
+            //  steps {
+            //    withDockerServer([credentialsId: "", uri: ""]) {
+            //      sh('docker images')
+            //      //sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
+            //    }
+            //  }
+            //}
             stage('Publish') {
               steps {
                 echo 'Publish'
