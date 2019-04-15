@@ -24,7 +24,7 @@ pipeline {
                 }
                 stage('Tag') {
                     steps {
-                      sh('printenv BUILD_TAG')
+                      sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
                     }
                 }
                 stage('Publish') {
