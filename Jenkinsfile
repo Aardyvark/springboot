@@ -37,11 +37,13 @@ pipeline {
             //    }
             //  }
             //}
-            stage('Publish') {
-              steps {
-                echo 'Publish'
-                sh 'mvn docker:push'
-              }
+          }
+          stage('Publish') {
+            agent any
+            steps {
+              echo 'Publish'
+              sh('docker images')
+              sh('docker tag localhost:32800/springboot/springbootexample localhost:32800/springboot/springbootexample:latest')
             }
           }
         }
