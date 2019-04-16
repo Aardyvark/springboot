@@ -38,12 +38,13 @@ pipeline {
                 }
               }
             }
-            stage('tag') {
-              steps {
-                echo 'tag'
-                sh 'git tag'
-              }
-            }
+          }
+        }
+        stage('tag') {
+          agent any
+          steps {
+            echo 'tag'
+            sh 'git tag'
           }
         }
         stage('Build Docker image') {
