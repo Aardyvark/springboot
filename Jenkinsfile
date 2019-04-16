@@ -47,10 +47,10 @@ pipeline {
             sh 'docker build . -t springboot/springbootexample:latest --build-arg path=target'
           }
         }
-        stage('Publish') {
+        stage('List docker images') {
           agent any
           steps {
-            echo 'Publish'
+            echo 'List docker images'
             sh 'docker images'
             //sh('docker tag springboot/springbootexample latest')
           }
