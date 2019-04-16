@@ -5,7 +5,7 @@ pipeline {
           agent any
           steps {
             sh('printenv')
-            sh('docker images')
+            //sh('docker images')
           }
         }
         stage('Start Build') {
@@ -36,7 +36,7 @@ pipeline {
           steps {
             echo 'Publish'
             sh('docker images')
-            sh('docker tag springboot/springbootexample latest')
+            //sh('docker tag springboot/springbootexample latest')
           }
         }
     }
