@@ -39,10 +39,10 @@ pipeline {
               }
             }
             stage('tag') {
-              steps (
+              steps {
                 echo 'tag'
                 sh 'git tag'
-              )
+              }
             }
           }
         }
