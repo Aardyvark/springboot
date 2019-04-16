@@ -17,10 +17,19 @@ pipeline {
                 sh 'mvn help:effective-pom'
               }
             }
-            stage('Build') {
+            stage('Package') {
               steps {
-                echo 'Packaging'
-                sh 'mvn -Dmaven.test.failure.ignore=true install'
+                echo 'Build'
+                sh 'mvn package -DskipTests=true'
+              }
+            }
+            stage ('test') {
+              steps {
+                //parallel (
+                //  "unit tests": { sh 'mvn test' },
+                //  "integration tests": { sh 'mvn integration-test' }
+                //)
+                sh 'mvn test'
               }
               post {
                 always {
