@@ -23,7 +23,7 @@ pipeline {
                 sh 'mvn package -DskipTests=true'
               }
             }
-            stage ('test') {
+            stage('test') {
               steps {
                 //parallel (
                 //  "unit tests": { sh 'mvn test' },
@@ -37,6 +37,12 @@ pipeline {
                   junit 'target/surefire-reports/**/*.xml'
                 }
               }
+            }
+            stage('tag') {
+              steps (
+                echo 'tag'
+                sh 'git tag'
+              )
             }
           }
         }
