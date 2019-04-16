@@ -99,23 +99,29 @@
 				</executions>
 			</plugin>
 -->
-//			<plugin>
-//		    <groupId>io.fabric8</groupId>
-//		    <artifactId>docker-maven-plugin</artifactId>
-//		    <version>0.29.0</version>
-//		    <configuration>
-//	        <images>
-//            <image>
+<!--
+			<plugin>
+		    <groupId>io.fabric8</groupId>
+		    <artifactId>docker-maven-plugin</artifactId>
+		    <version>0.29.0</version>
+		    <configuration>
+	        <images>
+            <image>
+-->
               <!--<name>localhost:32800/%g/%a:%v</name>-->
-//							<name>%g/%a:%v</name>
+<!--
+							<name>%g/%a:%v</name>
+-->
 <!--											<name>localhost:32800/helloworld:0.1</name>-->
-//								<build>
-//									<dockerFile>${project.basedir}/Dockerfile</dockerFile>
-//									<assembly>
-//										<descriptorRef>artifact</descriptorRef>
-//										<name>output</name>
-//									</assembly>
-//								</build>
+<!--
+								<build>
+									<dockerFile>${project.basedir}/Dockerfile</dockerFile>
+									<assembly>
+										<descriptorRef>artifact</descriptorRef>
+										<name>output</name>
+									</assembly>
+								</build>
+-->
 <!--
 											<run>
 												<ports>
@@ -123,9 +129,11 @@
 												</ports>
 											</run>
 -->
-//	          </image>
-//	        </images>
-//	    	</configuration>
+<!--
+	          </image>
+	        </images>
+	    	</configuration>
+-->
 <!-- prevent this from running in package phase -->
 <!--
 				<executions>
@@ -138,7 +146,9 @@
 			    </execution>
 			  </executions>
 -->
-//			</plugin>
+<!--
+			</plugin>
+-->
 		</plugins>
 	</build>
 	<reporting>
