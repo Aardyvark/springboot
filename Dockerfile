@@ -3,5 +3,5 @@ FROM openjdk:8-alpine
 #ADD springBootExample-0.1-SNAPSHOT.jar /app.jar
 COPY * /
 RUN ls -l
-COPY springBootExample-0.1-SNAPSHOT.jar /
+COPY springBootExample-0.1-SNAPSHOT.jar /app.jar
 CMD java -jar app.jar
