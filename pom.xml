@@ -126,6 +126,8 @@
 	          </image>
 	        </images>
 	    	</configuration>
+<!-- prevent this from running in package phase -->				
+<!--
 				<executions>
 			  	<execution>
 			    	<id>docker:build</id>
@@ -135,6 +137,7 @@
 			      </goals>
 			    </execution>
 			  </executions>
+-->
 			</plugin>
 		</plugins>
 	</build>

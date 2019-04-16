@@ -40,11 +40,18 @@ pipeline {
             }
           }
         }
+        stage('Build Docker image') {
+          agent any
+          steps {
+            echo 'Build Docker image'
+            sh 'docker build -t springboot/springbootexample:latest'
+          }
+        }
         stage('Publish') {
           agent any
           steps {
             echo 'Publish'
-            sh('docker images')
+            sh 'docker images'
             //sh('docker tag springboot/springbootexample latest')
           }
         }
