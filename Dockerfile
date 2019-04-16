@@ -1,7 +1,9 @@
 FROM openjdk:8-alpine
-#ADD output/${project.build.finalName}.jar /app.jar
-#ADD springBootExample-0.1-SNAPSHOT.jar /app.jar
-RUN ls -l
-#COPY Dockerfile /
-COPY target/springBootExample-0.1-SNAPSHOT.jar /app.jar
-CMD java -jar app.jar
+
+ARG path=target
+
+COPY ${path}/*.jar /app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
