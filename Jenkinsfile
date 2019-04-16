@@ -44,7 +44,7 @@ pipeline {
           agent any
           steps {
             echo 'Build Docker image'
-            sh 'docker build -t springboot/springbootexample:latest'
+            sh 'docker build -t springboot/springbootexample:latest .'
           }
         }
         stage('Publish') {
