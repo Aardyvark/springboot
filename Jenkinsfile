@@ -44,7 +44,7 @@ pipeline {
           agent any
           steps {
             echo 'tag'
-            sh 'git describe'
+            sh 'git describe --tags --always'
           }
         }
         stage('Build Docker image') {
