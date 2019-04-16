@@ -112,7 +112,7 @@
 								<build>
 									<dockerFile>${project.basedir}/Dockerfile</dockerFile>
 									<assembly>
-										<descriptorRef>artifact-with-dependencies</descriptorRef>
+										<descriptorRef>artifact</descriptorRef>
 										<name>output</name>
 									</assembly>
 								</build>
