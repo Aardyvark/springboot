@@ -38,6 +38,10 @@ pipeline {
                 }
               }
             }
+            steps {
+              echo 'Release'
+              sh 'mvn --batch-mode release:prepare -DdryRun=true'
+            }
           }
         }
         stage('tag') {
