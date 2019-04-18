@@ -66,7 +66,7 @@ pipeline {
           agent any
           steps {
             echo 'Push Docker image'
-            sh 'docker login --username=andyjfennell@gmail.com --password=Scotland123'
+            sh 'docker login --username=andyfennell --password=Scotland123'
             sh 'docker push docker-repository/springboot/springbootexample:latest'
             sh 'docker logout'
           }
