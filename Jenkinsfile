@@ -62,5 +62,14 @@ pipeline {
             //sh('docker tag springboot/springbootexample latest')
           }
         }
+        stage('Push Docker image') {
+          agent any
+          steps {
+            echo 'Push Docker image'
+            sh 'docker login --username=andyjfennell@gmail.com --password=Scotland123'
+            sh 'docker push docker-repository/springboot/springbootexample:latest'
+            sh 'docker logout'
+          }
+        }
     }
 }
