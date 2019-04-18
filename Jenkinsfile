@@ -52,6 +52,7 @@ pipeline {
           steps {
             echo 'Build Docker image'
             sh 'docker build . -t springboot/springbootexample:latest --build-arg path=target'
+            sh 'docker tag springboot/springbootexample localhost:32800/springboot/springbootexample:latest'
           }
         }
         stage('List docker images') {
@@ -66,9 +67,7 @@ pipeline {
           agent any
           steps {
             echo 'Push Docker image'
-            sh 'docker login --username=andyfennell --password=Scotland123'
-            sh 'docker push springboot/springbootexample:latest'
-            sh 'docker logout'
+            sh 'docker push localhost:32800/springboot/springbootexample:latest'
           }
         }
     }
