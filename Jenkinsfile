@@ -67,7 +67,7 @@ pipeline {
           steps {
             echo 'Push Docker image'
             sh 'docker login --username=andyfennell --password=Scotland123'
-            sh 'docker push docker-repository/springboot/springbootexample:latest'
+            sh 'docker push springboot/springbootexample:latest'
             sh 'docker logout'
           }
         }
