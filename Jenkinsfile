@@ -2,7 +2,7 @@ pipeline {
     agent none
     stages {
         stage('Environment') {
-          agent any
+          agent {label 'master'}
           steps {
             sh('printenv')
             //sh('docker images')
@@ -53,14 +53,14 @@ pipeline {
           }
         }
         stage('tag') {
-          agent any
+          agent {label 'master'}
           steps {
             echo 'tag'
             sh 'git describe --tags --always'
           }
         }
         stage('Build Docker image') {
-          agent any
+          agent {label 'master'}
           steps {
             echo 'Build Docker image'
             sh 'docker build . -t springboot/springbootexample:latest --build-arg path=target'
@@ -68,7 +68,7 @@ pipeline {
           }
         }
         stage('List docker images') {
-          agent any
+          agent {label 'master'}
           steps {
             echo 'List docker images'
             sh 'docker images'
@@ -76,7 +76,7 @@ pipeline {
           }
         }
         stage('Push Docker image') {
-          agent any
+          agent {label 'master'}
           steps {
             echo 'Push Docker image'
             sh 'docker push localhost:32800/springboot/springbootexample:latest'
