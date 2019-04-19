@@ -1,8 +1,8 @@
 pipeline {
-    agent none
+    agent {label 'whatever'}
     stages {
         stage('Environment') {
-          agent {label 'master'}
+          //agent {label 'master'}
           steps {
             sh('printenv')
             //sh('docker images')
@@ -13,7 +13,7 @@ pipeline {
             docker {
               image 'maven:3-alpine'
               //args '-v $HOME/.m2:/root/.m2:z -u root'
-              //reuseNode true
+              reuseNode true
             }
           }
           stages {
@@ -53,14 +53,14 @@ pipeline {
           }
         }
         stage('tag') {
-          agent {label 'master'}
+          //agent {label 'master'}
           steps {
             echo 'tag'
             sh 'git describe --tags --always'
           }
         }
         stage('Build Docker image') {
-          agent {label 'master'}
+          //agent {label 'master'}
           steps {
             echo 'Build Docker image'
             sh 'docker build . -t springboot/springbootexample:latest --build-arg path=target'
@@ -68,7 +68,7 @@ pipeline {
           }
         }
         stage('List docker images') {
-          agent {label 'master'}
+          //agent {label 'master'}
           steps {
             echo 'List docker images'
             sh 'docker images'
@@ -76,7 +76,7 @@ pipeline {
           }
         }
         stage('Push Docker image') {
-          agent {label 'master'}
+          //agent {label 'master'}
           steps {
             echo 'Push Docker image'
             sh 'docker push localhost:32800/springboot/springbootexample:latest'
