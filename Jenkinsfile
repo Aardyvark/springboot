@@ -17,6 +17,11 @@ pipeline {
             }
           }
           stages {
+            stage('Docker Environment') {
+              steps {
+                sh('printenv')
+              }
+            }
             stage('Effective POM') {
               steps {
                 echo 'Effective POM'
