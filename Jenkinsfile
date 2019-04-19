@@ -9,7 +9,13 @@ pipeline {
           }
         }
         stage('Start Build') {
-          agent { docker 'maven:3-alpine' }
+          agent {
+            docker {
+              image 'maven:3-alpine'
+              args '-v $HOME/.m2:/root/.m2:z -u root'
+              reuseNode true
+            }
+          }
           stages {
             stage('Effective POM') {
               steps {
