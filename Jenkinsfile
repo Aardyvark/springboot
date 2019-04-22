@@ -1,3 +1,5 @@
+def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+
 pipeline {
     agent {label 'master'}
     stages {
@@ -31,7 +33,7 @@ pipeline {
             stage('Package') {
               steps {
                 echo 'Build'
-                sh 'mvn package -DskipTests=true'
+                sh 'mvn package -DskipTests=true ${mavenArgs}'
               }
             }
             stage('test') {
@@ -52,7 +54,7 @@ pipeline {
             stage('Release') {
               steps {
                 echo 'Release'
-                sh 'mvn --batch-mode release:prepare -DdryRun=true'
+                sh 'mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}'
               }
             }
           }
