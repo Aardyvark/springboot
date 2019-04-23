@@ -74,10 +74,10 @@ pipeline {
             echo "${dockerRegistry}"
             //sh 'docker build . -t springbootexample:latest --build-arg path=target'
             //sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
-            script {
-              docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
-                docker.build('myapp')
-              }
+            withDockerRegistry([credentialsID: "Nexus", url: "https://192.168.0.9:8083"]) {
+                //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
+                //docker.build('myapp')
+                //}
             }
           }
         }
