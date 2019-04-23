@@ -34,7 +34,7 @@ pipeline {
             stage('Package') {
               steps {
                 echo 'Build'
-                sh "mvn package -DskipTests=true ${mavenArgs}""
+                sh "mvn package -DskipTests=true ${mavenArgs}"
               }
             }
             stage('test') {
@@ -55,7 +55,7 @@ pipeline {
             stage('Release') {
               steps {
                 echo 'Release'
-                sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}""
+                sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
               }
             }
           }
