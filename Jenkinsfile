@@ -34,7 +34,7 @@ pipeline {
             stage('Package') {
               steps {
                 echo 'Build'
-                sh 'mvn package -DskipTests=true ${mavenArgs}'
+                sh "mvn package -DskipTests=true ${mavenArgs}""
               }
             }
             stage('test') {
@@ -55,7 +55,7 @@ pipeline {
             stage('Release') {
               steps {
                 echo 'Release'
-                sh 'mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}'
+                sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}""
               }
             }
           }
@@ -73,7 +73,7 @@ pipeline {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
             sh 'docker build . -t springbootexample:latest --build-arg path=target'
-            sh 'docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT'
+            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
           }
         }
         stage('List docker images') {
@@ -87,9 +87,9 @@ pipeline {
           //agent {label 'master'}
           steps {
             echo 'Push Docker image'
-            sh 'docker login ${dockerRegistry} -u admin -p admin123'
-            sh 'docker push ${dockerRegistry}/springbootexample:0.2-SNAPSHOT'
-            sh 'docker logout ${dockerRegistry}'
+            sh "docker login ${dockerRegistry} -u admin -p admin123"
+            sh "docker push ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
+            sh "docker logout ${dockerRegistry}"
           }
         }
     }
