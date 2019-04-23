@@ -1,4 +1,5 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+def dockerRegistry="192.168.0.9:8183"
 
 pipeline {
     agent {label 'master'}
@@ -71,7 +72,7 @@ pipeline {
           steps {
             echo 'Build Docker image'
             sh 'docker build . -t springbootexample:latest --build-arg path=target'
-            sh 'docker tag springbootexample 192.168.0.9:8183/springbootexample:0.2-SNAPSHOT'
+            sh 'docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT'
           }
         }
         stage('List docker images') {
@@ -79,16 +80,15 @@ pipeline {
           steps {
             echo 'List docker images'
             sh 'docker images'
-            //sh('docker tag springboot/springbootexample latest')
           }
         }
         stage('Push Docker image') {
           //agent {label 'master'}
           steps {
             echo 'Push Docker image'
-            sh 'docker login 192.168.0.9:8183 -u admin -p admin123'
-            sh 'docker push 192.168.0.9:8183/springbootexample:0.2-SNAPSHOT'
-            sh 'docker logout 192.168.0.9.8183'
+            sh 'docker login ${dockerRegistry} -u admin -p admin123'
+            sh 'docker push ${dockerRegistry}/springbootexample:0.2-SNAPSHOT'
+            sh 'docker logout ${dockerRegistry}'
           }
         }
     }
