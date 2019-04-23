@@ -59,7 +59,7 @@ pipeline {
             }
           }
         }
-        stage('tag') {
+        stage('Git tag') {
           //agent {label 'master'}
           steps {
             echo 'tag'
@@ -70,8 +70,8 @@ pipeline {
           //agent {label 'master'}
           steps {
             echo 'Build Docker image'
-            sh 'docker build . -t springboot/springbootexample:latest --build-arg path=target'
-            sh 'docker tag springboot/springbootexample localhost:32800/springboot/springbootexample:latest'
+            sh 'docker build . -t springbootexample:latest --build-arg path=target'
+            sh 'docker tag springbootexample 192.168.0.9:8183/springbootexample:0.2-SNAPSHOT'
           }
         }
         stage('List docker images') {
@@ -86,7 +86,9 @@ pipeline {
           //agent {label 'master'}
           steps {
             echo 'Push Docker image'
-            sh 'docker push localhost:32800/springboot/springbootexample:latest'
+            sh 'docker login 192.168.0.9:8183 -u admin -p admin123'
+            sh 'docker push 192.168.0.9:8183/springbootexample:0.2-SNAPSHOT'
+            sh 'docker logout 192.168.0.9.8183'
           }
         }
     }
