@@ -72,8 +72,11 @@ pipeline {
           steps {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
-            sh 'docker build . -t springbootexample:latest --build-arg path=target'
-            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
+            //sh 'docker build . -t springbootexample:latest --build-arg path=target'
+            //sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
+            docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
+              docker.build('myapp')
+            }
           }
         }
         stage('List docker images') {
