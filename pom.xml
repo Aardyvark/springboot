@@ -47,19 +47,17 @@
 	<scm>
     <developerConnection>scm:git:https://github.com/Aardyvark/springboot</developerConnection>
   </scm>
-	<!--
 	<distributionManagement>
     <repository>
       <id>nexus</id>
       <name>Nexus Releases</name>
-      <url>http://localhost:8181/nexus/service/local/staging/deploy/maven2</url>
+      <url>http://192.168.0.9:8181/nexus/service/local/staging/deploy/maven2</url>
     </repository>
     <snapshotRepository>
       <id>nexus</id>
       <name>Nexus Snapshot</name>
-      <url>http://localhost:8181/nexus/content/repositories/snapshots</url>
+      <url>http://192.168.0.9:8181/repository/maven-snapshots</url>
     </snapshotRepository>
--->
 <!--
     <site>
       <id>nexus</id>
@@ -67,7 +65,7 @@
       <url>dav:http://localhost:8181/nexus/content/sites/site/</url>
     </site>
 -->
-  <!--</distributionManagement>-->
+  </distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
