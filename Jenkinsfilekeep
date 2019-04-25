@@ -4,19 +4,29 @@ def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
 def builtImage="undefined"
 
-node {
-    stage('Environment') {
-        //agent {label 'master'}
-        //steps {
-          sh('printenv')
-          //sh('docker images')
-        //}
-    }
-    docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2') {
+pipeline {
+    agent {label 'master'}
+    stages {
+        stage('Environment') {
+          //agent {label 'master'}
+          steps {
+            sh('printenv')
+            //sh('docker images')
+          }
+        }
+        stage('Start Build') {
+          agent {
+            docker {
+              image 'maven:3-alpine'
+              args '-v $HOME/.m2:/root/.m2:z -u root'
+              reuseNode true
+            }
+          }
+          stages {
             stage('Docker Environment') {
-              //steps {
+              steps {
                 sh('printenv')
-              //}
+              }
             }
             stage('Effective POM') {
               steps {
@@ -31,7 +41,7 @@ node {
               }
             }
             stage('test') {
-              //steps {
+              steps {
                 //parallel (
                 //  "unit tests": { sh 'mvn test' },
                 //  "integration tests": { sh 'mvn integration-test' }
@@ -51,6 +61,7 @@ node {
                 sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
               }
             }
+          }
         }
         stage('Git tag') {
           //agent {label 'master'}
