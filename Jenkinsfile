@@ -19,16 +19,16 @@ node {
               //}
             }
             stage('Effective POM') {
-              steps {
+              //steps {
                 echo 'Effective POM'
                 sh 'mvn help:effective-pom'
-              }
+              //}
             }
             stage('Package') {
-              steps {
+              //steps {
                 echo 'Build'
                 sh "mvn package -DskipTests=true ${mavenArgs}"
-              }
+              //}
             }
             stage('test') {
               //steps {
@@ -46,29 +46,27 @@ node {
               }
             }
             stage('Release') {
-              steps {
+              //steps {
                 echo 'Release'
                 sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
-              }
+              //}
             }
         }
         stage('Git tag') {
           //agent {label 'master'}
-          steps {
+          //steps {
             echo 'tag'
             sh 'git describe --tags --always'
-          }
+          //}
         }
         stage('Build Docker image') {
           //agent {label 'master'}
-          steps {
+          //steps {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
-            script {
-                builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
-            }
+            builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
             echo "builtImage id:${builtImage.id}"
-          }
+          //}
         }
         stage('Tag Docker image') {
           //agent {label 'master'}
