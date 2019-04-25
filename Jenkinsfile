@@ -1,4 +1,4 @@
-def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+//def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
 def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
@@ -27,6 +27,7 @@ node {
             stage('Package') {
               //steps {
                 echo 'Build'
+                def mavenArgs="--settings=\$HOME/.m2/settings.xml"
                 sh "mvn package -DskipTests=true ${mavenArgs}"
               //}
             }
