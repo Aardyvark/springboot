@@ -2,7 +2,7 @@ def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
 def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
-def imageId="undefined"
+def image="undefined"
 
 pipeline {
     agent {label 'master'}
@@ -76,9 +76,12 @@ pipeline {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
             script {
-              imageId = sh(returnStdout: true, script: 'docker build . -q -t springbootexample:latest --build-arg path=target').trim()
+              //imageId = sh(returnStdout: true, script: 'docker build . -q -t springbootexample:latest --build-arg path=target').trim()
+              withDockerServer([uri: " unix:///var/run/docker.sock"]) {
+                image = docker.build("springbootexample:latest", "--build-arg path=target .")
+              }
             }
-            echo "imageId:${imageId}"
+            echo "image id:${image.id}"
           }
         }
         stage('Tag Docker image') {
