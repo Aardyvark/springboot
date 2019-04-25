@@ -8,6 +8,7 @@ def builtImage="undefined"
 node {
     stage('Environment') {
         sh('printenv')
+        echo "home:$HOME"
     }
     docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2:z -u root') {
         stage('Docker Environment') {
