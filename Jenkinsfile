@@ -72,13 +72,17 @@ pipeline {
           steps {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
-            //sh 'docker build . -t springbootexample:latest --build-arg path=target'
+            sh 'docker build . -t springbootexample:latest --build-arg path=target'
             //sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
-            withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
-                //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
-                //docker.build('myapp')
-                //}
-            }
+          }
+        }
+        stage('Tag Docker image') {
+          //agent {label 'master'}
+          steps {
+            echo 'Tag Docker image'
+            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
+            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            echo "gitCommit:${gitCommit}"
           }
         }
         stage('List docker images') {
@@ -92,6 +96,11 @@ pipeline {
           //agent {label 'master'}
           steps {
             echo 'Push Docker image'
+            withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
+                //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
+                //docker.build('myapp')
+                //}
+            }
             sh "docker login ${dockerRegistry} -u admin -p admin123"
             sh "docker push ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
             sh "docker logout ${dockerRegistry}"
