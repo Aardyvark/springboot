@@ -2,7 +2,7 @@ def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
 def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
-def image="undefined"
+def builtImage="undefined"
 
 pipeline {
     agent {label 'master'}
