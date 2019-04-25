@@ -1,5 +1,6 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
+def gitCommit="undefined"
 
 pipeline {
     agent {label 'master'}
@@ -81,7 +82,9 @@ pipeline {
           steps {
             echo 'Tag Docker image'
             sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
-            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            script {
+              gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            }
             echo "gitCommit:${gitCommit}"
           }
         }
