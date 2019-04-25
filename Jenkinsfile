@@ -106,4 +106,3 @@ node {
             sh "docker logout ${dockerRegistry}"
           }
         }
-}
