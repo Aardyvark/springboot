@@ -27,7 +27,8 @@ node {
             stage('Package') {
               //steps {
                 echo 'Build'
-                def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+                //def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+                def mavenArgs="--settings=/var/jenkins_home/.m2/settings.xml"
                 sh "mvn package -DskipTests=true ${mavenArgs}"
               //}
             }
