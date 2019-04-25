@@ -108,11 +108,11 @@ pipeline {
           //agent {label 'master'}
           steps {
             echo 'Push Docker image'
-            withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
+            //withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
                 //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
                 //docker.build('myapp')
                 //}
-            }
+            //}
             sh "docker login ${dockerRegistry} -u admin -p admin123"
             sh "docker push ${dockerRegistry}/springbootexample:${version}"
             sh "docker push ${dockerRegistry}/springbootexample:${gitCommit}"
