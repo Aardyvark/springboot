@@ -77,9 +77,9 @@ pipeline {
             echo "${dockerRegistry}"
             script {
               //imageId = sh(returnStdout: true, script: 'docker build . -q -t springbootexample:latest --build-arg path=target').trim()
-              withDockerServer([uri: " unix:///var/run/docker.sock"]) {
+              //withDockerServer([uri: " unix:///var/run/docker.sock"]) {
                 //image = docker.build("springbootexample:latest", "--build-arg path=target .")
-              }
+              //}
             }
             echo "image id:${image.id}"
           }
