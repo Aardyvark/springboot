@@ -9,6 +9,8 @@ node {
     stage('Environment') {
         sh('printenv')
         echo "home:$HOME"
+        mavenArgs="--settings=$HOME/.m2/settings.xml"
+        sh 'git describe --tags --always'
     }
     docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2:z -u root') {
         stage('Docker Environment') {
@@ -21,7 +23,6 @@ node {
         stage('Package') {
             echo 'Build'
             //def mavenArgs="--settings=\$HOME/.m2/settings.xml"
-            mavenArgs="--settings=/var/jenkins_home/.m2/settings.xml"
             sh "mvn package -DskipTests=true ${mavenArgs}"
         }
         try {
@@ -39,10 +40,6 @@ node {
         stage('Release') {
             echo 'Release'
             sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
-        }
-        stage('Git tag') {
-            echo 'tag'
-            sh 'git describe --tags --always'
         }
         stage('Build Docker image') {
             echo 'Build Docker image'
