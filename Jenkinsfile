@@ -1,5 +1,6 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
+def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
 
 pipeline {
@@ -74,18 +75,19 @@ pipeline {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
             sh 'docker build . -t springbootexample:latest --build-arg path=target'
-            //sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
           }
         }
         stage('Tag Docker image') {
           //agent {label 'master'}
           steps {
             echo 'Tag Docker image'
-            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
+            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:${version}"
             script {
-              gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             }
             echo "gitCommit:${gitCommit}"
+            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:${gitCommit}"
+            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:latest"
           }
         }
         stage('List docker images') {
@@ -95,7 +97,7 @@ pipeline {
             sh 'docker images'
           }
         }
-        stage('Push Docker image') {
+        stage('Tag & Push Docker image') {
           //agent {label 'master'}
           steps {
             echo 'Push Docker image'
@@ -105,7 +107,9 @@ pipeline {
                 //}
             }
             sh "docker login ${dockerRegistry} -u admin -p admin123"
-            sh "docker push ${dockerRegistry}/springbootexample:0.2-SNAPSHOT"
+            sh "docker push ${dockerRegistry}/springbootexample:${version}"
+            sh "docker push ${dockerRegistry}/springbootexample:${gitCommit}"
+            sh "docker push ${dockerRegistry}/springbootexample:latest"
             sh "docker logout ${dockerRegistry}"
           }
         }
