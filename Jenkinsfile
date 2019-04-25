@@ -11,6 +11,10 @@ node {
         echo "home:$HOME"
         mavenArgs="--settings=$HOME/.m2/settings.xml"
         sh 'git describe --tags --always'
+        artifactId = readMavenPom().getArtifactId()
+        version = readMavenPom().getVersion()
+        echo "artifactId: ${artifactId}"
+        echo "version: ${version}"
     }
     docker.image('maven:3-alpine').inside('-v $HOME/.m2:/root/.m2:z -u root') {
         stage('Docker Environment') {
