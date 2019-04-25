@@ -75,13 +75,13 @@ pipeline {
           steps {
             echo 'Build Docker image'
             echo "${dockerRegistry}"
-            //script {
+            script {
               //imageId = sh(returnStdout: true, script: 'docker build . -q -t springbootexample:latest --build-arg path=target').trim()
-              //withDockerServer([uri: " unix:///var/run/docker.sock"]) {
-                //image = docker.build("springbootexample:latest", "--build-arg path=target .")
-              //}
-            //}
-            echo "image id:${image.id}"
+              withDockerServer([uri: " unix:///var/run/docker.sock"]) {
+                builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
+              }
+            }
+            echo "builtImage id:${builtImage.id}"
           }
         }
         stage('Tag Docker image') {
