@@ -2,7 +2,6 @@ def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
 def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
-def builtImage="undefined"
 
 pipeline {
     agent {label 'master'}
@@ -15,10 +14,8 @@ pipeline {
 
     stages {
         stage('Environment') {
-          //agent {label 'master'}
           steps {
             sh('printenv')
-            //sh('docker images')
           }
         }
         stage('Start Build') {
@@ -43,7 +40,6 @@ pipeline {
             }
             stage('Package') {
               steps {
-                echo 'Build'
                 sh "mvn package -DskipTests=true ${mavenArgs}"
               }
             }
@@ -78,49 +74,44 @@ pipeline {
           }
         }
         stage('Build Docker image') {
-          //agent {label 'master'}
           steps {
-            echo 'Build Docker image'
-            script {
-                builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
-            }
-            //sh "docker build ${IMAGE} --build-arg path=target ."
+            //script {
+            //    builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
+            //}
+            sh "docker build -t ${IMAGE}:latest --build-arg path=target ."
           }
         }
         stage('Tag Docker image') {
-          //agent {label 'master'}
           steps {
-            echo 'Tag Docker image'
-            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:${version}"
             script {
               gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             }
-            echo "gitCommit:${gitCommit}"
-            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:${gitCommit}"
-            sh "docker tag springbootexample ${dockerRegistry}/springbootexample:latest"
+            sh """
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${version}
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${gitCommit}
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:latest
+            """
           }
         }
         stage('List docker images') {
-          //agent {label 'master'}
           steps {
-            echo 'List docker images'
-            sh 'docker images'
+            sh 'docker image ls'
           }
         }
-        stage('Tag & Push Docker image') {
-          //agent {label 'master'}
+        stage('Push Docker image') {
           steps {
-            echo 'Push Docker image'
             //withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
                 //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
                 //docker.build('myapp')
                 //}
             //}
-            sh "docker login ${dockerRegistry} -u admin -p admin123"
-            sh "docker push ${dockerRegistry}/springbootexample:${version}"
-            sh "docker push ${dockerRegistry}/springbootexample:${gitCommit}"
-            sh "docker push ${dockerRegistry}/springbootexample:latest"
-            sh "docker logout ${dockerRegistry}"
+            sh """
+            docker login ${dockerRegistry} -u admin -p admin123
+            docker push ${dockerRegistry}/${IMAGE}:${version}
+            docker push ${dockerRegistry}/${IMAGE}:${gitCommit}
+            docker push ${dockerRegistry}/${IMAGE}:latest
+            docker logout ${dockerRegistry}
+            """
           }
         }
     }
