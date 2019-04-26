@@ -1,6 +1,5 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
-def version="0.2-SNAPSHOT"
 def gitCommit="undefined"
 
 pipeline {
@@ -87,7 +86,7 @@ pipeline {
               gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             }
             sh """
-            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${version}
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${VERSION}
             docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${gitCommit}
             docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:latest
             """
@@ -100,14 +99,15 @@ pipeline {
         }
         stage('Push Docker image') {
           steps {
-            //withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
+            withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
                 //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
                 //docker.build('myapp')
                 //}
-            //}
+                docker.push('abc')
+            }
             sh """
             docker login ${dockerRegistry} -u admin -p admin123
-            docker push ${dockerRegistry}/${IMAGE}:${version}
+            docker push ${dockerRegistry}/${IMAGE}:${VERSION}
             docker push ${dockerRegistry}/${IMAGE}:${gitCommit}
             docker push ${dockerRegistry}/${IMAGE}:latest
             docker logout ${dockerRegistry}
