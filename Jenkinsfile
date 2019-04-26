@@ -1,5 +1,5 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
-def dockerRegistry="192.168.0.9:8183"
+def dockerRegistry="http://192.168.0.9:8183"
 def gitCommit="undefined"
 
 pipeline {
