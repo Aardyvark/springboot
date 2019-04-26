@@ -87,9 +87,12 @@ pipeline {
             //-DreleaseVersion=$RELEASE_VERSION
             sh "git tag $RELEASE_VERSION"
             sh "git tag"
-            sh "git push --tags"
+            //sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Aardyvark/springboot --tags')
+            }
           }
         }
         stage('Build Docker image') {
