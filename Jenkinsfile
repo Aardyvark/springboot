@@ -91,7 +91,7 @@ pipeline {
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Aardyvark/springboot --tags')
+                sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
             }
           }
         }
