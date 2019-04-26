@@ -64,7 +64,7 @@ pipeline {
             //    sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
             //  }
             //}
-            stage('Release'') {
+            stage('Release') {
                 steps {
                   sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
                 }
