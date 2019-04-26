@@ -22,7 +22,7 @@ pipeline {
           agent {
             docker {
               image 'maven:3-alpine'
-              args '-v $HOME/.m2:/root/.m2:z -u root'
+              args '-v $HOME/.m2:/root/.m2:z -v /usr/bin:/usr:bin -u root'
               reuseNode true
             }
           }
