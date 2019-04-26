@@ -91,7 +91,7 @@ pipeline {
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
           }
-        //}
+        }
         stage('Build Docker image') {
           steps {
             //script {
