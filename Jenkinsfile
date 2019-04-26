@@ -1,5 +1,5 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
-def dockerRegistry="http://192.168.0.9:8183"
+def dockerRegistry="192.168.0.9:8183"
 def gitCommit="undefined"
 
 pipeline {
@@ -99,7 +99,7 @@ pipeline {
         }
         stage('Push Docker image') {
           steps {
-            withDockerRegistry([credentialsId: "Nexus", url: "${dockerRegistry}"]) {
+            withDockerRegistry([credentialsId: "Nexus", url: "http://${dockerRegistry}"]) {
                 sh """
                 docker push ${dockerRegistry}/${IMAGE}:${VERSION}
                 docker push ${dockerRegistry}/${IMAGE}:${gitCommit}
