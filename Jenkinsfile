@@ -81,11 +81,10 @@ pipeline {
           //agent {label 'master'}
           steps {
             echo 'Build Docker image'
-            echo "${dockerRegistry}"
-            //script {
-            //    builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
-            //}
-            sh "docker build ${IMAGE} --build-arg path=target ."
+            script {
+                builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
+            }
+            //sh "docker build ${IMAGE} --build-arg path=target ."
           }
         }
         stage('Tag Docker image') {
