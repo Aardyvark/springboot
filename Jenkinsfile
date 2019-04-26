@@ -1,6 +1,7 @@
 def mavenArgs="--settings=\$HOME/.m2/settings.xml"
 def dockerRegistry="192.168.0.9:8183"
 def gitCommit="undefined"
+def $RELEASE_VERSION = "release_tag_test"
 
 pipeline {
     agent {label 'master'}
@@ -57,21 +58,35 @@ pipeline {
                 }
               }
             }
-            stage('Release') {
-              steps {
-                echo 'Release'
-                sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
-              }
+            //stage('Release') {
+            //  steps {
+            //    echo 'Release'
+            //    sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
+            //  }
+            //}
+            stage('Release'') {
+                steps {
+                  sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
+                }
             }
           }
         }
-        stage('Git tag') {
+        //stage('Git tag') {
           //agent {label 'master'}
-          steps {
-            echo 'tag'
-            sh 'git describe --tags --always'
-          }
-        }
+          //steps {
+            //echo 'tag'
+            //sh 'git describe --tags --always'
+            //$ git fetch origin
+            //$ git checkout master
+            //$ git reset —hard origin/master
+            //$ git clean -f
+            //$ mvn -DpushChanges=false release:prepare -B
+            //-DreleaseVersion=$RELEASE_VERSION
+            //$ git push —tags
+            //$ mvn -B release:perform
+            //$ git reset —hard origin/master
+          //}
+        //}
         stage('Build Docker image') {
           steps {
             //script {
