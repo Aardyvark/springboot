@@ -67,6 +67,7 @@ pipeline {
             stage('Release') {
                 steps {
                   sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
+                  sh "git push --tags"
                 }
             }
           }
