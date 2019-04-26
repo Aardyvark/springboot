@@ -64,19 +64,19 @@ pipeline {
             //    sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
             //  }
             //}
-            stage('Release') {
-                steps {
-                  sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
-                  sh "pwd"
-                  sh "ls -l"
-                  sh "./abc/bin/git push --tags"
-                }
-            }
+            //stage('Release') {
+            //    steps {
+            //      sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
+            //      sh "pwd"
+            //      sh "ls -l"
+            //      sh "./abc/bin/git push --tags"
+            //    }
+            //}
           }
         }
-        //stage('Git tag') {
+        stage('Git tag') {
           //agent {label 'master'}
-          //steps {
+          steps {
             //echo 'tag'
             //sh 'git describe --tags --always'
             //$ git fetch origin
@@ -85,7 +85,9 @@ pipeline {
             //$ git clean -f
             //$ mvn -DpushChanges=false release:prepare -B
             //-DreleaseVersion=$RELEASE_VERSION
-            //$ git push —tags
+            sh "git tag $RELEASE_VERSION"
+            sh "git tag"
+            sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
           //}
