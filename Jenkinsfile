@@ -90,7 +90,7 @@ pipeline {
             sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
-          //}
+          }
         //}
         stage('Build Docker image') {
           steps {
