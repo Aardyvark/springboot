@@ -99,18 +99,11 @@ pipeline {
         }
         stage('Push Docker image') {
           steps {
-            //withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
-                //docker.withRegistry('https://192.168.0.9:8083', 'docker-login') {
-                //docker.build('myapp')
-                //}
-            //}
-            withDockerRegistry([credentialsId: "Nexus", url: "http://192.168.0.9:8183"]) {
+            withDockerRegistry([credentialsId: "Nexus", url: "${dockerRegistry}"]) {
                 sh """
-                //docker login ${dockerRegistry} -u admin -p admin123
                 docker push ${dockerRegistry}/${IMAGE}:${VERSION}
                 docker push ${dockerRegistry}/${IMAGE}:${gitCommit}
                 docker push ${dockerRegistry}/${IMAGE}:latest
-                docker logout ${dockerRegistry}
                 """
             }
           }
