@@ -10,6 +10,7 @@ pipeline {
       //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
       IMAGE = readMavenPom().getArtifactId()
       VERSION = readMavenPom().getVersion()
+      releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
     }
 
     stages {
@@ -66,7 +67,7 @@ pipeline {
             //}
             stage('Release') {
                 steps {
-                  def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
+                  //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
                   sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=${releaseVersion}"
                 }
             }
