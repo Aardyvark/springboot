@@ -20,13 +20,13 @@ pipeline {
           }
         }
         stage('Start Build') {
-          agent {
-            docker {
-              image 'maven:3-alpine'
-              args '-v $HOME/.m2:/root/.m2:z -v /usr/bin:/abc/bin -u root'
-              reuseNode true
-            }
-          }
+          //agent {
+          //  docker {
+          //    image 'maven:3-alpine'
+          //    args '-v $HOME/.m2:/root/.m2:z -v /usr/bin:/abc/bin -u root'
+          //    reuseNode true
+          //  }
+          //}
           stages {
             stage('Docker Environment') {
               steps {
