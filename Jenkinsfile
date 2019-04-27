@@ -68,7 +68,7 @@ pipeline {
             stage('Release') {
                 steps {
                   //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
-                  sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=${releaseVersion}"
+                  sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} -DpreparationGoals=initialize release:prepare release:perform -B"
                 }
             }
           }
