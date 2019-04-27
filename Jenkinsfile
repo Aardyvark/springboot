@@ -64,20 +64,18 @@ pipeline {
             //    sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
             //  }
             //}
-            //stage('Release') {
-            //    steps {
-            //      sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
-            //      sh "pwd"
-            //      sh "ls -l"
-            //      sh "./abc/bin/git push --tags"
-            //    }
-            //}
+            stage('Release') {
+                steps {
+                  def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
+                  sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=${releaseVersion}"
+                }
+            }
           }
         }
         stage('Git tag') {
           //agent {label 'master'}
           steps {
-            //echo 'tag'
+            echo 'tag'
             //sh 'git describe --tags --always'
             //$ git fetch origin
             //$ git checkout master
@@ -85,14 +83,14 @@ pipeline {
             //$ git clean -f
             //$ mvn -DpushChanges=false release:prepare -B
             //-DreleaseVersion=$RELEASE_VERSION
-            sh "git tag $RELEASE_VERSION"
-            sh "git tag"
+            //sh "git tag $RELEASE_VERSION"
+            //sh "git tag"
             //sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
-            }
+            //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+            //    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
+            //}
           }
         }
         stage('Build Docker image') {
