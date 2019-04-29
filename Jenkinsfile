@@ -1,4 +1,5 @@
-def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+//def mavenArgs="--settings=\$HOME/.m2/settings.xml"
+def mavenArgs=""
 def dockerRegistry="192.168.0.9:8183"
 def gitCommit="undefined"
 def RELEASE_VERSION = "release_tag_test"
