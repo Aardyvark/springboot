@@ -42,7 +42,7 @@ pipeline {
             }
             stage('Package') {
               steps {
-                sh "mvn package -DskipTests=true ${mavenArgs}"
+                sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
               }
             }
             stage('test') {
@@ -51,7 +51,7 @@ pipeline {
                 //  "unit tests": { sh 'mvn test' },
                 //  "integration tests": { sh 'mvn integration-test' }
                 //)
-                sh 'mvn test'
+                sh 'mvn test ${mavenArgs} -e -X'
               }
               post {
                 always {
