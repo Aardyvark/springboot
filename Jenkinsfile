@@ -11,7 +11,7 @@ pipeline {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
-        //releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
+        releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
     }
 
     stages {
@@ -69,7 +69,7 @@ pipeline {
             //$ git clean -f
                 sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
                 sh "git tag -d $RELEASE_VERSION"
-                sh "git tag $RELEASE_VERSION"
+                sh "git tag $releaseVersion"
                 sh "git tag"
             //    sh "git push --tags"
             //$ mvn -B release:perform
