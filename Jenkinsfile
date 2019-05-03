@@ -11,7 +11,7 @@ pipeline {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
-        // releaseVersion should be snapshot if not on 'master' else take off 'SNAPSHOT' and add build number.
+        // TODO - releaseVersion should be snapshot if not on 'master' else take off 'SNAPSHOT' and add build number.
         releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
     }
 
@@ -68,13 +68,17 @@ pipeline {
             //$ git checkout master
             //$ git reset —hard origin/master
             //$ git clean -f
+
+            // TODO - what does release:prepare give?
                 sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$releaseVersion"
-                sh "git tag -d $RELEASE_VERSION"
+                //sh "git tag -d $RELEASE_VERSION"
                 sh "git tag $releaseVersion"
                 sh "git tag"
             //    sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
+
+            // TODO - need to push the tag to remote repo
             //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
             //    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
             //}
