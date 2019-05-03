@@ -47,16 +47,16 @@ pipeline {
             }
         }
         //stage('Release') {
-        //  steps {
-        //    echo 'Release'
-        //    sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
-        //  }
+        //    steps {
+        //        echo 'Release'
+        //        sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
+        //    }
         //}
         stage('Release') {
             steps {
                 //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
                 //sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} -DpreparationGoals=initialize release:prepare release:perform -B"
-                sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} release:prepare release:perform -B"
+                sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} release:prepare release:perform -B ${mavenArgs}"
             }
         }
         //stage('Git tag') {
