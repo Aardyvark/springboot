@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Outside Package') {
           steps {
-            sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+            sh "mvn clean package -DskipTests=true ${mavenArgs} -e -X"
           }
         }
         stage('Outside test') {
