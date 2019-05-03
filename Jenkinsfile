@@ -1,5 +1,5 @@
 //def mavenArgs="--settings=\$HOME/.m2/settings.xml"
-def mavenArgs="--settings=/var/jenkins_home/.m2/settings.xml _JAVA_OPTIONS=-Djdk.net.URLClassPath.disableClassPathURLCheck=true"
+def mavenArgs="--settings=/var/jenkins_home/.m2/settings.xml -Dsurefire.useSystemClassLoader=false"
 def dockerRegistry="192.168.0.9:8183"
 def gitCommit="undefined"
 def RELEASE_VERSION = "release_tag_test"
