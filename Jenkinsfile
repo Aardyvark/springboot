@@ -17,13 +17,13 @@ pipeline {
     stages {
         stage('Environment') {
             steps {
-            sh('printenv')
+                sh('printenv')
             }
         }
         stage('Effective POM') {
             steps {
-            echo 'Effective pom'
-            sh 'mvn help:effective-pom'
+                echo 'Effective pom'
+                sh 'mvn help:effective-pom'
             }
         }
         stage('Test') {
@@ -36,8 +36,9 @@ pipeline {
             }
             post {
                 always {
-                //archive "target/**/*"
-                junit 'target/surefire-reports/**/*.xml'
+                    //archive "target/**/*"
+                    junit 'target/surefire-reports/**/*.xml'
+                }
             }
         }
         stage('Package') {
