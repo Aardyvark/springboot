@@ -82,7 +82,8 @@
         <artifactId>maven-surefire-report-plugin</artifactId>
 				<!--<version>2.22.1</version>-->
 				<configuration>
-		        <useSystemClassLoader>false</useSystemClassLoader>
+		        <!--<useSystemClassLoader>false</useSystemClassLoader>-->
+						<argLine>@{argLine} -Dsurefire.useSystemClassLoader=false</argLine>
 		    </configuration>
       </plugin>
 			<plugin>
