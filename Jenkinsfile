@@ -59,7 +59,7 @@ pipeline {
                 //  "unit tests": { sh 'mvn test' },
                 //  "integration tests": { sh 'mvn integration-test' }
                 //)
-                sh 'mvn test ${mavenArgs} -e -X'
+                sh 'mvn test -DuseSystemClassLoader=false ${mavenArgs} -e -X'
               }
               post {
                 always {
