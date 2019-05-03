@@ -19,6 +19,7 @@
 		<!-- To be able to interpolate the value on the Dockerfile. Waiting for
 			https://github.com/fabric8io/docker-maven-plugin/pull/877 to be merged. -->
 		<project.build.finalName>${project.build.finalName}</project.build.finalName>
+		<surefire.useSystemClassLoader>false</surefire.useSystemClassLoader>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
