@@ -8,42 +8,41 @@ pipeline {
     agent {label 'master'}
 
     environment {
-      //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-      IMAGE = readMavenPom().getArtifactId()
-      VERSION = readMavenPom().getVersion()
-      releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
+        //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+        IMAGE = readMavenPom().getArtifactId()
+        VERSION = readMavenPom().getVersion()
+        releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
     }
 
     stage('Environment') {
-      steps {
-        sh('printenv')
-      }
+        steps {
+          sh('printenv')
+        }
     }
     stage('Effective POM') {
-      steps {
-        echo 'Effective pom'
-        sh 'mvn help:effective-pom'
-      }
+        steps {
+          echo 'Effective pom'
+          sh 'mvn help:effective-pom'
+        }
     }
     stage('Test') {
-      steps {
-        //parallel (
-        //  "unit tests": { sh 'mvn test' },
-        //  "integration tests": { sh 'mvn integration-test' }
-        //)
-        sh 'mvn test ${mavenArgs} -e -X'
-      }
-      post {
-        always {
-          //archive "target/**/*"
-          junit 'target/surefire-reports/**/*.xml'
+        steps {
+            //parallel (
+            //  "unit tests": { sh 'mvn test' },
+            //  "integration tests": { sh 'mvn integration-test' }
+            //)
+            sh 'mvn test ${mavenArgs} -e -X'
         }
-      }
+        post {
+            always {
+            //archive "target/**/*"
+            junit 'target/surefire-reports/**/*.xml'
+        }
     }
     stage('Package') {
-      steps {
-        sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
-      }
+        steps {
+            sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+        }
     }
     //stage('Release') {
     //  steps {
@@ -52,10 +51,10 @@ pipeline {
     //  }
     //}
     stage('Release') {
-      steps {
-        //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
-        sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} -DpreparationGoals=initialize release:prepare release:perform -B"
-      }
+        steps {
+            //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
+            sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} -DpreparationGoals=initialize release:prepare release:perform -B"
+        }
     }
     //stage('Git tag') {
       //steps {
@@ -78,40 +77,39 @@ pipeline {
       //}
     //}
     stage('Build Docker image') {
-      steps {
-        //script {
-        //    builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
-        //}
-        sh "docker build -t ${IMAGE}:latest --build-arg path=target ."
-      }
+        steps {
+            //script {
+            //    builtImage = docker.build("springbootexample:latest", "--build-arg path=target .")
+            //}
+            sh "docker build -t ${IMAGE}:latest --build-arg path=target ."
+        }
     }
     stage('Tag Docker image') {
-      steps {
-        script {
-          gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-        }
-        sh """
-        docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${VERSION}
-        docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${gitCommit}
-        docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:latest
-        """
-      }
-    }
-    stage('List docker images') {
-      steps {
-        sh 'docker image ls'
-      }
-    }
-    stage('Push Docker image') {
-      steps {
-        withDockerRegistry([credentialsId: "Nexus", url: "http://${dockerRegistry}"]) {
+        steps {
+            script {
+                gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+            }
             sh """
-            docker push ${dockerRegistry}/${IMAGE}:${VERSION}
-            docker push ${dockerRegistry}/${IMAGE}:${gitCommit}
-            docker push ${dockerRegistry}/${IMAGE}:latest
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${VERSION}
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${gitCommit}
+            docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:latest
             """
         }
-      }
     }
-  }
+    stage('List docker images') {
+        steps {
+            sh 'docker image ls'
+        }
+    }
+    stage('Push Docker image') {
+        steps {
+            withDockerRegistry([credentialsId: "Nexus", url: "http://${dockerRegistry}"]) {
+                sh """
+                docker push ${dockerRegistry}/${IMAGE}:${VERSION}
+                docker push ${dockerRegistry}/${IMAGE}:${gitCommit}
+                docker push ${dockerRegistry}/${IMAGE}:latest
+                """
+            }
+        }
+    }
 }
