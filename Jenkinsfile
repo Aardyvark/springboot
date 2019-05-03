@@ -68,6 +68,7 @@ pipeline {
             //$ git reset —hard origin/master
             //$ git clean -f
                 sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
+                sh "git tag -d $RELEASE_VERSION"
                 sh "git tag $RELEASE_VERSION"
                 sh "git tag"
             //    sh "git push --tags"
