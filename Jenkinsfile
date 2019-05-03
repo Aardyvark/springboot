@@ -24,8 +24,10 @@ pipeline {
           stages {
             stage('Effective POM') {
               steps {
-                echo 'Effective settings'
+                echo 'Effective pom'
                 sh 'mvn help:effective-pom'
+                echo 'Surefire'
+                sh 'mvn surefire:help -Ddetail=true -Dgoal=test'
               }
             }
             stage('Package') {
