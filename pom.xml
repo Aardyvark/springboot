@@ -83,6 +83,7 @@
 				<version>2.22.1</version>
 				<configuration>
 		        <useSystemClassLoader>false</useSystemClassLoader>
+						<forkCount>0</forkCount>
 		    </configuration>
       </plugin>
 			<plugin>
