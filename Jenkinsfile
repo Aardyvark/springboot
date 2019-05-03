@@ -11,6 +11,7 @@ pipeline {
         //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
+        // releaseVersion should be snapshot if not on 'master' else take off 'SNAPSHOT' and add build number.
         releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
     }
 
@@ -67,7 +68,7 @@ pipeline {
             //$ git checkout master
             //$ git reset —hard origin/master
             //$ git clean -f
-                sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
+                sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$releaseVersion"
                 sh "git tag -d $RELEASE_VERSION"
                 sh "git tag $releaseVersion"
                 sh "git tag"
@@ -93,7 +94,7 @@ pipeline {
                     gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                 }
                 sh """
-                docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${VERSION}
+                docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${releaseVersion}
                 docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:${gitCommit}
                 docker tag ${IMAGE} ${dockerRegistry}/${IMAGE}:latest
                 """
