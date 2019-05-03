@@ -20,26 +20,6 @@ pipeline {
             sh('printenv')
           }
         }
-        stage('Outside Package') {
-          steps {
-            sh "mvn clean package -DskipTests=true ${mavenArgs} -e -X"
-          }
-        }
-        stage('Outside test') {
-          steps {
-            //parallel (
-            //  "unit tests": { sh 'mvn test' },
-            //  "integration tests": { sh 'mvn integration-test' }
-            //)
-            sh 'mvn test ${mavenArgs} -e -X'
-          }
-          post {
-            always {
-              //archive "target/**/*"
-              junit 'target/surefire-reports/**/*.xml'
-            }
-          }
-        }
         stage('Start Build') {
           stages {
             stage('Effective POM') {
@@ -59,7 +39,7 @@ pipeline {
                 //  "unit tests": { sh 'mvn test' },
                 //  "integration tests": { sh 'mvn integration-test' }
                 //)
-                sh 'mvn test -Dsurefire.useSystemClassLoader=false ${mavenArgs} -e -X'
+                sh 'mvn test ${mavenArgs} -e -X'
               }
               post {
                 always {
