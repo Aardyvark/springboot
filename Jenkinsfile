@@ -20,20 +20,13 @@ pipeline {
             sh('printenv')
           }
         }
+        stage('Outside Package') {
+          steps {
+            sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+          }
+        }
         stage('Start Build') {
-          //agent {
-          //  docker {
-          //    image 'maven:3-alpine'
-          //    args '-v $HOME/.m2:/root/.m2:z -v /usr/bin:/abc/bin -u root'
-          //    reuseNode true
-          //  }
-          //}
           stages {
-            stage('Docker Environment') {
-              steps {
-                sh('printenv')
-              }
-            }
             stage('Effective POM') {
               steps {
                 echo 'Effective POM'
