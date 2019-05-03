@@ -46,12 +46,12 @@ pipeline {
                 sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
             }
         }
-        stage('Release') {
-            steps {
-                echo 'Release'
-                sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
-            }
-        }
+        //stage('Release') {
+        //    steps {
+        //        echo 'Release'
+        //        sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
+        //    }
+        //}
         //stage('Release') {
         //    steps {
         //        //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
@@ -59,26 +59,25 @@ pipeline {
         //        sh "mvn -DpushChanges=false -DreleaseVersion=${VERSION} release:prepare release:perform -B ${mavenArgs}"
         //    }
         //}
-        //stage('Git tag') {
-            //steps {
-            //echo 'tag'
-            //sh 'git describe --tags --always'
+        stage('Git tag') {
+            steps {
+                echo 'tag'
+                sh 'git describe --tags --always'
             //$ git fetch origin
             //$ git checkout master
             //$ git reset —hard origin/master
             //$ git clean -f
-            //$ mvn -DpushChanges=false release:prepare -B
-            //-DreleaseVersion=$RELEASE_VERSION
-            //sh "git tag $RELEASE_VERSION"
-            //sh "git tag"
-            //sh "git push --tags"
+                sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$RELEASE_VERSION"
+                sh "git tag $RELEASE_VERSION"
+                sh "git tag"
+            //    sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
             //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
             //    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
             //}
-            //}
-        //}
+            }
+        }
         stage('Build Docker image') {
             steps {
                 //script {
