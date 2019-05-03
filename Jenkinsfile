@@ -20,17 +20,14 @@ pipeline {
             sh('printenv')
           }
         }
-        stage('Outside Package') {
-          steps {
-            sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
-          }
-        }
         stage('Start Build') {
           stages {
             stage('Effective POM') {
               steps {
-                echo 'Effective POM'
+                echo 'Effective settings'
                 sh 'mvn help:effective-pom'
+                echo 'Effective POM'
+                sh 'mvn help:effective-settings'
               }
             }
             stage('Package') {
