@@ -27,7 +27,7 @@ pipeline {
                 sh 'mvn help:effective-pom'
             }
         }
-        stage('Test') {
+        stage('Unit tests') {
             steps {
                 //parallel (
                 //  "unit tests": { sh 'mvn test' },
@@ -42,24 +42,21 @@ pipeline {
                 }
             }
         }
-        stage('Package') {
+        stage('Integration tests') {
             steps {
-                sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+                //parallel (
+                //  "unit tests": { sh 'mvn test' },
+                //  "integration tests": { sh 'mvn integration-test' }
+                //)
+                sh 'mvn integration-test ${mavenArgs} -e -X'
+            }
+            post {
+                always {
+                    //archive "target/**/*"
+                    junit 'target/surefire-reports/**/*.xml'
+                }
             }
         }
-        //stage('Release') {
-        //    steps {
-        //        echo 'Release'
-        //        sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
-        //    }
-        //}
-        //stage('Release') {
-        //    steps {
-        //        //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
-        //        //sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} -DpreparationGoals=initialize release:prepare release:perform -B"
-        //        sh "mvn -DpushChanges=false -DreleaseVersion=${VERSION} release:prepare release:perform -B ${mavenArgs}"
-        //    }
-        //}
         stage('Git tag') {
             steps {
                 echo 'tag'
@@ -84,6 +81,24 @@ pipeline {
             //}
             }
         }
+        stage('Package') {
+            steps {
+                sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+            }
+        }
+        //stage('Release') {
+        //    steps {
+        //        echo 'Release'
+        //        sh "mvn --batch-mode release:prepare -DdryRun=true ${mavenArgs}"
+        //    }
+        //}
+        //stage('Release') {
+        //    steps {
+        //        //def releaseVersion = VERSION.replace("-SNAPSHOT", ".${currentBuild.number}")
+        //        //sh "mvn -DpushChanges=false -DreleaseVersion=${releaseVersion} -DpreparationGoals=initialize release:prepare release:perform -B"
+        //        sh "mvn -DpushChanges=false -DreleaseVersion=${VERSION} release:prepare release:perform -B ${mavenArgs}"
+        //    }
+        //}
         stage('Build Docker image') {
             steps {
                 //script {
