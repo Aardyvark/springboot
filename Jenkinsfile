@@ -34,7 +34,6 @@ pipeline {
                   "integration tests": { sh 'mvn integration-test ${mavenArgs} -e -X' }
                 )
                 //sh 'mvn test ${mavenArgs} -e -X'
-                sh 'mvn site ${mavenArgs} -e -X'
             }
             post {
                 always {
@@ -42,9 +41,15 @@ pipeline {
                 }
             }
         }
+        stage('Site') {
+            steps {
+                echo 'Site'
+                sh 'mvn site ${mavenArgs} -e -X'
+            }
+        }
         stage('Git tag') {
             steps {
-                echo 'tag'
+                echo 'Git tag'
                 sh 'git describe --tags --always'
             //$ git fetch origin
             //$ git checkout master
