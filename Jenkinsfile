@@ -27,32 +27,16 @@ pipeline {
                 sh 'mvn help:effective-pom'
             }
         }
-        stage('Unit tests') {
+        stage('Tests') {
             steps {
-                //parallel (
-                //  "unit tests": { sh 'mvn test' },
-                //  "integration tests": { sh 'mvn integration-test' }
-                //)
-                sh 'mvn test ${mavenArgs} -e -X'
+                parallel (
+                  "unit tests": { sh 'mvn test ${mavenArgs} -e -X' },
+                  "integration tests": { sh 'mvn integration-test ${mavenArgs} -e -X' }
+                )
+                //sh 'mvn test ${mavenArgs} -e -X'
             }
             post {
                 always {
-                    //archive "target/**/*"
-                    junit 'target/surefire-reports/**/*.xml'
-                }
-            }
-        }
-        stage('Integration tests') {
-            steps {
-                //parallel (
-                //  "unit tests": { sh 'mvn test' },
-                //  "integration tests": { sh 'mvn integration-test' }
-                //)
-                sh 'mvn integration-test ${mavenArgs} -e -X'
-            }
-            post {
-                always {
-                    //archive "target/**/*"
                     junit 'target/surefire-reports/**/*.xml'
                 }
             }
@@ -75,10 +59,10 @@ pipeline {
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
 
-            // TODO - need to push the tag to remote repo
-            //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-            //    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
-            //}
+                // TODO - need to push the tag to remote repo
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
+                }
             }
         }
         stage('Package') {
