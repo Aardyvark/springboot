@@ -115,9 +115,14 @@
 			        </gitDescribe>
 			    </configuration>
 			</plugin>
-<!--
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+		            <includes>
+		                <include>**/*IT.java</include>
+		            </includes>
+		        </configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -127,7 +132,6 @@
 					</execution>
 				</executions>
 			</plugin>
--->
 <!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
