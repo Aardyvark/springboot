@@ -34,6 +34,7 @@ pipeline {
                   "integration tests": { sh 'mvn integration-test ${mavenArgs} -e -X' }
                 )
                 //sh 'mvn test ${mavenArgs} -e -X'
+                sh 'mvn site ${mavenArgs} -e -X'
             }
             post {
                 always {
@@ -59,10 +60,10 @@ pipeline {
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
 
-                // TODO - need to push the tag to remote repo
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
-                }
+                // TODO - need to push the tag to remote repo - use ssh?
+                //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                //    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
+                //}
             }
         }
         stage('Package') {
