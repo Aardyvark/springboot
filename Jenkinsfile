@@ -27,18 +27,19 @@ pipeline {
                 sh 'mvn help:effective-pom'
             }
         }
-        stage('Tests') {
+        stage('Unit Tests') {
             steps {
-                parallel (
-                  "unit tests": { sh 'mvn test ${mavenArgs} -e -X' },
-                  "integration tests": { sh 'mvn integration-test ${mavenArgs} -e -X' }
-                )
-                //sh 'mvn test ${mavenArgs} -e -X'
+                sh 'mvn test ${mavenArgs} -e -X'
             }
             post {
                 always {
                     junit 'target/surefire-reports/**/*.xml'
                 }
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                sh 'mvn verify ${mavenArgs} -e -X'
             }
         }
         stage('Site') {
