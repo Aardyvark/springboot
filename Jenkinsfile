@@ -42,12 +42,12 @@ pipeline {
                 sh 'mvn verify ${mavenArgs} -e -X'
             }
         }
-        stage('Site') {
-            steps {
-                echo 'Site'
-                sh 'mvn site ${mavenArgs} -e -X'
-            }
-        }
+        //stage('Site') {
+        //    steps {
+        //        echo 'Site'
+        //        sh 'mvn site ${mavenArgs} -e -X'
+        //    }
+        //}
         stage('Git tag') {
             steps {
                 echo 'Git tag'
