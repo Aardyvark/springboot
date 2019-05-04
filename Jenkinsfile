@@ -70,7 +70,7 @@ pipeline {
             //$ git clean -f
 
             // TODO - what does release:prepare give?
-                sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$releaseVersion"
+            //    sh "mvn -DpushChanges=false release:prepare -B -DreleaseVersion=$releaseVersion"
                 //sh "git tag -d $RELEASE_VERSION"
                 sh "git tag $releaseVersion"
                 sh "git tag"
