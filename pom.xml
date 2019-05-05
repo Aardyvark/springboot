@@ -232,7 +232,8 @@
 			                    Skips integration tests if the value of skip.integration.tests
 			                    property is true
 			                -->
-			                <skipTests>false</skipTests>
+							<!-- skip running the unit tests -->
+			                <skipTests>true</skipTests>
 							<includes>
 	 		                	<!-- Include unit tests within integration-test phase. -->
 	 		                	<include>**/*IT.java</include>
