@@ -1,5 +1,5 @@
 //def mavenArgs="--settings=\$HOME/.m2/settings.xml"
-def mavenArgs='-DargLine="-Djdk.net.URLClassPath.disableClassPathURLCheck=true" --settings=/var/jenkins_home/.m2/settings.xml'
+def mavenArgs='--settings=/var/jenkins_home/.m2/settings.xml'
 def dockerRegistry="192.168.0.9:8183"
 def gitCommit="undefined"
 def RELEASE_VERSION = "release_tag_test"
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Unit Tests') {
             steps {
-                sh 'mvn clean test ${mavenArgs} -e -X'
+                sh 'mvn test ${mavenArgs} -e -X'
             }
             post {
                 always {
@@ -40,6 +40,11 @@ pipeline {
         stage('Integration Tests') {
             steps {
                 sh 'mvn verify ${mavenArgs} -e -X'
+            }
+            post {
+                always {
+                    junit 'target/failsafe-reports/*.xml'
+                }
             }
         }
         //stage('Site') {
