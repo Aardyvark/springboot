@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Unit Tests') {
             steps {
-                sh 'mvn test ${mavenArgs} -e -X'
+                sh 'mvn clean test ${mavenArgs} -e -X'
             }
             post {
                 always {
