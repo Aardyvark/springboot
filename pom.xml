@@ -223,7 +223,7 @@
 			            Failsafe Maven plugin
 			        -->
 			        <execution>
-			            <id>integration-tests</id>
+			            <!--<id>integration-tests</id>-->
 			            <goals>
 			                <goal>integration-test</goal>
 			                <goal>verify</goal>
