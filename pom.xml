@@ -219,8 +219,8 @@
 	                <configuration>
                     <skip>true</skip>
 	                </configuration>
-				-->
 				</execution>
+				-->
 				<execution>
 		            <phase>test</phase>
 		            <goals>
