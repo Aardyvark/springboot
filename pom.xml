@@ -172,7 +172,6 @@
 		      </configuration>
 		      <executions>
 		         <execution>
-		            <id>unit-tests</id>
 		            <phase>test</phase>
 		            <goals>
 		               <goal>test</goal>
@@ -224,12 +223,10 @@
 			        -->
 			        <execution>
 			            <!--<id>integration-tests</id>-->
-<!--
 			            <goals>
 			                <goal>integration-test</goal>
 			                <goal>verify</goal>
 			            </goals>
--->						
 			            <configuration>
 			                <!--
 			                    Skips integration tests if the value of skip.integration.tests
