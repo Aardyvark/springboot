@@ -213,14 +213,12 @@
 		         <skipTests>${skip.unit.tests}</skipTests>
 		      </configuration>
 		      <executions>
-				 <!--
 		         <execution>
 	                <id>default-test</id>
 	                <configuration>
                     <skip>true</skip>
 	                </configuration>
 				</execution>
-				-->
 				<execution>
 		            <phase>test</phase>
 		            <goals>
