@@ -37,11 +37,11 @@ pipeline {
                 }
             }
         }
-        //stage('Integration Tests') {
-        //    steps {
-        //        sh 'mvn verify ${mavenArgs} -e -X'
-        //    }
-        //}
+        stage('Integration Tests') {
+            steps {
+                sh 'mvn verify ${mavenArgs} -e -X'
+            }
+        }
         //stage('Site') {
         //    steps {
         //        echo 'Site'
