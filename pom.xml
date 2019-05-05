@@ -265,6 +265,12 @@
 			    <artifactId>maven-failsafe-plugin</artifactId>
 			    <version>2.18</version>
 			    <executions>
+					<execution>
+   	                	<id>default</id>
+   	                	<configuration>
+                       		<skip>true</skip>
+   	                	</configuration>
+   					</execution>
 			        <!--
 			            Invokes both the integration-test and the verify goals of the
 			            Failsafe Maven plugin
