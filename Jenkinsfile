@@ -79,7 +79,8 @@ pipeline {
         }
         stage('Package') {
             steps {
-                sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+                //sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
+                sh "mvn package -Dmaven.test.skip ${mavenArgs} -e -X"
             }
         }
         //stage('Release') {
