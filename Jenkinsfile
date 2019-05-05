@@ -29,7 +29,8 @@ pipeline {
         }
         stage('Unit Tests') {
             steps {
-                sh 'mvn test ${mavenArgs} -e -X'
+                //sh 'mvn test ${mavenArgs} -e -X'
+                sh 'mvn test ${mavenArgs}'
             }
             post {
                 always {
@@ -39,7 +40,8 @@ pipeline {
         }
         stage('Integration Tests') {
             steps {
-                sh 'mvn verify ${mavenArgs} -P integration-test -e -X'
+                //sh 'mvn verify ${mavenArgs} -P integration-test -e -X'
+                sh 'mvn verify ${mavenArgs} -P integration-test'
             }
             post {
                 always {
@@ -79,8 +81,8 @@ pipeline {
         }
         stage('Package') {
             steps {
-                //sh "mvn package -DskipTests=true ${mavenArgs} -e -X"
-                sh "mvn package -Dmaven.test.skip ${mavenArgs} -e -X"
+                //sh "mvn package -Dmaven.test.skip ${mavenArgs} -e -X"
+                sh "mvn package -Dmaven.test.skip ${mavenArgs}"
             }
         }
         //stage('Release') {
