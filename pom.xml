@@ -210,14 +210,16 @@
 		      <artifactId>maven-surefire-plugin</artifactId>
 		      <configuration>
 				 <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-		         <!--<skipTests>${skip.unit.tests}</skipTests>-->
+		         <skipTests>${skip.unit.tests}</skipTests>
 		      </configuration>
 		      <executions>
+				 <!--
 		         <execution>
 	                <id>default-test</id>
 	                <configuration>
                     <skip>true</skip>
 	                </configuration>
+				-->
 				</execution>
 				<execution>
 		            <phase>test</phase>
@@ -270,19 +272,17 @@
 			            Failsafe Maven plugin
 			        -->
 			        <execution>
-			            <!--<id>integration-tests</id>-->
+						<id>integration-tests</id>
 			            <goals>
 			                <goal>integration-test</goal>
 			                <goal>verify</goal>
 			            </goals>
 			            <configuration>
-			                <!--
+							<!--
 			                    Skips integration tests if the value of skip.integration.tests
 			                    property is true
 			                -->
-							<!-- skip running the unit tests -->
-			                <skipTests>true</skipTests>
-							<skipITs>false</skipITs>
+			                <skipTests>${skip.integration.tests}</skipTests>
 							<includes>
 	 		                	<!-- Include unit tests within integration-test phase. -->
 	 		                	<include>**/*IT.java</include>

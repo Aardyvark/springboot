@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Integration Tests') {
             steps {
-                sh 'mvn verify ${mavenArgs} -e -X'
+                sh 'mvn verify ${mavenArgs} -P integration-test -e -X'
             }
             post {
                 always {
