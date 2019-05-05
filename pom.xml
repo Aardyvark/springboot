@@ -239,7 +239,7 @@
 			                    property is true
 			                -->
 							<!-- skip running the unit tests -->
-			                <!--<skipTests>true</skipTests>-->
+			                <skipTests>true</skipTests>
 							<skipITs>false</skipITs>
 							<includes>
 	 		                	<!-- Include unit tests within integration-test phase. -->
