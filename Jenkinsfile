@@ -62,7 +62,7 @@ pipeline {
         }
         stage('Build Docker image') {
             steps {
-                sh "docker build -t ${IMAGE}:latest --build-arg path=target ."
+                sh "docker build -t ${imageName}:latest --build-arg path=target ."
             }
         }
         stage('Tag Docker image') {
