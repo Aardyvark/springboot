@@ -69,13 +69,16 @@ pipeline {
                 //sh "git tag -d $RELEASE_VERSION"
                 sh "git tag $releaseVersion"
                 sh "git tag"
-            //    sh "git push --tags"
+                sh "git push --tags"
             //$ mvn -B release:perform
             //$ git reset —hard origin/master
 
                 // TODO - need to push the tag to remote repo - use ssh?
                 //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'GitHub', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                 //    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}:443@github.com/Aardyvark/springboot --tags')
+                //}
+                //withCredentials([sshUserPrivateKey(credentialsId: 'github-ssh', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+                //    sh('git push --tags')
                 //}
             }
         }
